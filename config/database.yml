@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: ozon_marketplace_development
+  username: postgres
+  password: 1111
+
+test:
+  <<: *default
+  database: ozon_marketplace_test
+  username: postgres
+  password: 1111
