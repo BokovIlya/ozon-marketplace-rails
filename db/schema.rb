@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_03_124543) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_26_094830) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,7 +27,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_03_124543) do
   create_table "carts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
@@ -51,6 +51,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_03_124543) do
   create_table "order_items", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "order_id", null: false
+    t.decimal "price"
     t.decimal "price_at_purchase"
     t.bigint "product_id", null: false
     t.integer "quantity"
@@ -63,9 +64,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_03_124543) do
     t.datetime "created_at", null: false
     t.text "shipping_address"
     t.string "status"
+    t.decimal "total_amount"
     t.decimal "total_price"
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 

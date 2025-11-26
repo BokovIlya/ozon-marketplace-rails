@@ -1,0 +1,33 @@
+<h1 class="mb-4">Ваша корзина</h1>
+
+<% if @cart.cart_items.any? %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Товар</th>
+        <th>Цена</th>
+        <th>Количество</th>
+        <th>Сумма</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart.cart_items.each do |item| %>
+        <tr>
+          <td><%= item.product.title %></td>
+          <td><%= number_to_currency(item.product.price) %></td>
+          <td><%= item.quantity %></td>
+          <td><%= number_to_currency(item.product.price * item.quantity) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="text-end">
+    <h4>Итого: <%= number_to_currency(@cart.cart_items.sum { |item| item.product.price * item.quantity }) %></h4>
+    <%= button_to "Оформить заказ", orders_path, method: :post, class: "btn btn-primary btn-lg mt-3" %>
+  </div>
+
+<% else %>
+  <p>Ваша корзина пуста.</p>
+  <%= link_to "Вернуться к покупкам", root_path, class: "btn btn-light" %>
+<% end %>

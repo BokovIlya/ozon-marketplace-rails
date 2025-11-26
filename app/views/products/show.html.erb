@@ -1,0 +1,75 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Главная", root_path %></li>
+    <li class="breadcrumb-item"><%= link_to "Товары", products_path %></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= @product.title %></li>
+  </ol>
+</nav>
+
+<div class="row">
+  <div class="col-md-6">
+    <% if @product.title.include?('Ноутбук') %>
+      <%= image_tag "laptop.jpg", class: "img-fluid rounded" %>
+    <% elsif @product.title.include?('Звездный Путник') %>
+      <%= image_tag "DOOM.jpg", class: "img-fluid rounded" %>
+    <% elsif @product.title.include?('наушники') %>
+      <%= image_tag "7328.jpg", class: "img-fluid rounded" %>
+    <% elsif @product.title.include?('Кофемашина') %>
+      <%= image_tag "1021478317.jpg", class: "img-fluid rounded" %>
+    <% elsif @product.title.include?('Энциклопедия') %>
+      <%= image_tag "0.jpg", class: "img-fluid rounded" %>
+    <% else %>
+      <%= image_tag "product_placeholder.jpg", class: "img-fluid rounded" %>
+    <% end %>
+  </div>
+  <div class="col-md-6">
+    <h1><%= @product.title %></h1>
+    <p class="text-muted">Продавец: <%= @product.seller.store_name %></p>
+    
+    <p class="lead mt-4"><%= @product.description %></p>
+    
+    <div class="my-4">
+      <span class="fs-2 fw-bold"><%= number_to_currency(@product.price) %></span>
+    </div>
+
+    <div class="d-grid gap-2">
+      <%= button_to "Добавить в корзину", cart_items_path(product_id: @product), method: :post, class: "btn btn-primary btn-lg" %>
+      <a href="#" class="btn btn-outline-secondary">Добавить в избранное</a>
+    </div>
+
+    <div class="mt-4">
+      <h5>Категории:</h5>
+      <p>
+        <% @product.categories.each do |category| %>
+          <%= link_to category.name, category_path(category), class: "badge text-bg-light text-decoration-none" %>
+        <% end %>
+      </p>
+    </div>
+  </div>
+</div>
+
+<hr class="my-4">
+
+<div class="row">
+  <div class="col-md-8">
+    <h3 class="mb-3">Отзывы (<%= @reviews.count %>)</h3>
+
+    <% if @reviews.any? %>
+      <% @reviews.each do |review| %>
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Оценка: <%= review.rating %> / 5</h5>
+            <p class="card-text"><%= review.comment %></p>
+            <p class="card-text">
+              <small class="text-muted">
+                Автор: <%= review.user.email %> | Опубликовано: <%= l(review.created_at, format: :long) %>
+              </small>
+            </p>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p>На этот товар еще нет отзывов. Будьте первым!</p>
+    <% end %>
+  </div>
+</div>
