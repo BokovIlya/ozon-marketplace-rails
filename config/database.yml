@@ -14,3 +14,7 @@ test:
   database: ozon_marketplace_test
   username: postgres
   password: 1111
+
+production:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
