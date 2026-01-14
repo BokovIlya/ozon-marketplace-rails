@@ -1,0 +1,42 @@
+<h1 class="mb-4">Ваше избранное</h1>
+
+<% if @favorites.any? %>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% @favorites.each do |product| %>
+      <div class="col">
+        <div class="card h-100">
+          <div style="height: 200px; overflow: hidden;" class="d-flex align-items-center justify-content-center mt-3 p-2">
+            <% if product.title.include?('Ноутбук') %>
+              <%= image_tag "laptop.jpg", class: "card-img-top", style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+            <% elsif product.title.include?('Звездный Путник') %>
+              <%= image_tag "DOOM.jpg", class: "card-img-top", style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+            <% elsif product.title.include?('наушники') %>
+              <%= image_tag "7328.jpg", class: "card-img-top", style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+            <% elsif product.title.include?('Кофемашина') %>
+              <%= image_tag "1021478317.jpg", class: "card-img-top", style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+            <% elsif product.title.include?('Энциклопедия') %>
+              <%= image_tag "0.jpg", class: "card-img-top", style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+            <% else %>
+              <%= image_tag "product_placeholder.jpg", class: "card-img-top", style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+            <% end %>
+          </div>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">
+              <%= link_to product.title, product_path(product), class: "text-decoration-none" %>
+            </h5>
+            <div class="mt-auto">
+              <p class="card-text fs-5"><strong><%= number_to_currency(product.price) %></strong></p>
+              <div class="d-grid gap-2">
+                <%= button_to "Удалить", favorite_path(product), method: :delete, class: "btn btn-outline-danger btn-sm" %>
+                <%= button_to "В корзину", cart_items_path(product_id: product), method: :post, class: "btn btn-primary btn-sm" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>В избранном пока ничего нет.</p>
+  <%= link_to "Перейти к покупкам", root_path, class: "btn btn-primary" %>
+<% end %>

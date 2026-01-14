@@ -31,6 +31,14 @@
           </h5>
           <p class="card-text text-muted"><%= truncate(product.description, length: 80) %></p>
           <div class="mt-auto">
+            <div class="mb-2">
+              <% if product.reviews.any? %>
+                <span class="text-warning">★</span> <strong><%= product.average_rating %></strong>
+                <small class="text-muted">(<%= product.reviews.count %>)</small>
+              <% else %>
+                <small class="text-muted">Нет отзывов</small>
+              <% end %>
+            </div>
             <p class="card-text fs-5"><strong><%= number_to_currency(product.price) %></strong></p>
           </div>
         </div>

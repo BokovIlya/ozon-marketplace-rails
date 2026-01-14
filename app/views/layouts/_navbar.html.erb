@@ -9,10 +9,22 @@
         <li class="nav-item">
           <%= link_to "Товары", products_path, class: "nav-link" %>
         </li>
-        <li class="nav-item">
-          <%= link_to "Категории", categories_path, class: "nav-link" %>
-        </li>
-      </ul>
+          <li class="nav-item">
+            <%= link_to "Категории", categories_path, class: "nav-link" %>
+          </li>
+          <% if current_user %>
+            <li class="nav-item">
+              <%= link_to "Избранное", favorites_path, class: "nav-link" %>
+            </li>
+          <% end %>
+        </ul>
+
+      <%# Форма поиска %>
+      <%= form_with url: products_path, method: :get, class: "d-flex mx-auto" do |form| %>
+        <%= form.text_field :query, value: params[:query], class: "form-control me-2", placeholder: "Найти товар...", aria: { label: "Search" } %>
+        <%= form.submit "Поиск", class: "btn btn-outline-light" %>
+      <% end %>
+
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
           <%= link_to cart_path, class: "nav-link" do %>
@@ -20,6 +32,22 @@
             <span class="badge rounded-pill bg-light text-dark ms-1"><%= current_cart.cart_items.sum(:quantity) %></span>
           <% end %>
         </li>
+
+        <% if current_user %>
+          <li class="nav-item ms-3">
+            <span class="nav-link text-muted"><%= current_user.email %></span>
+          </li>
+          <li class="nav-item">
+            <%= button_to "Выйти", logout_path, method: :delete, class: "nav-link btn btn-link" %>
+          </li>
+        <% else %>
+          <li class="nav-item ms-3">
+            <%= link_to "Вход", sign_in_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Регистрация", sign_up_path, class: "nav-link" %>
+          </li>
+        <% end %>
       </ul>
     </div>
   </div>

@@ -4,25 +4,35 @@
   <% @products.each do |product| %>
     <div class="col">
       <div class="card h-100">
-        <% if product.title.include?('Ноутбук') %>
-          <%= image_tag "laptop.jpg", class: "card-img-top" %>
-        <% elsif product.title.include?('Звездный Путник') %>
-          <%= image_tag "DOOM.jpg", class: "card-img-top" %>
-        <% elsif product.title.include?('наушники') %>
-          <%= image_tag "7328.jpg", class: "card-img-top" %>
-        <% elsif product.title.include?('Кофемашина') %>
-          <%= image_tag "1021478317.jpg", class: "card-img-top" %>
-        <% elsif product.title.include?('Энциклопедия') %>
-          <%= image_tag "0.jpg", class: "card-img-top" %>
-        <% else %>
-          <%= image_tag "product_placeholder.jpg", class: "card-img-top" %>
-        <% end %>
+        <div style="height: 200px; overflow: hidden;" class="d-flex align-items-center justify-content-center mt-3 p-2">
+          <% if product.title.include?('Ноутбук') %>
+            <%= image_tag "laptop.jpg", class: "card-img-top", style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+          <% elsif product.title.include?('Звездный Путник') %>
+            <%= image_tag "DOOM.jpg", class: "card-img-top", style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+          <% elsif product.title.include?('наушники') %>
+            <%= image_tag "7328.jpg", class: "card-img-top", style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+          <% elsif product.title.include?('Кофемашина') %>
+            <%= image_tag "1021478317.jpg", class: "card-img-top", style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+          <% elsif product.title.include?('Энциклопедия') %>
+            <%= image_tag "0.jpg", class: "card-img-top", style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+          <% else %>
+            <%= image_tag "product_placeholder.jpg", class: "card-img-top", style: "max-height: 100%; max-width: 100%; object-fit: contain;" %>
+          <% end %>
+        </div>
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">
             <%= link_to product.title, product_path(product), class: "text-decoration-none stretched-link" %>
           </h5>
           <p class="card-text text-muted"><%= truncate(product.description, length: 80) %></p>
           <div class="mt-auto">
+            <div class="mb-2">
+              <% if product.reviews.any? %>
+                <span class="text-warning">★</span> <strong><%= product.average_rating %></strong>
+                <small class="text-muted">(<%= product.reviews.count %>)</small>
+              <% else %>
+                <small class="text-muted">Нет отзывов</small>
+              <% end %>
+            </div>
             <p class="card-text fs-5"><strong><%= number_to_currency(product.price) %></strong></p>
           </div>
         </div>

@@ -23,24 +23,38 @@
     <% end %>
   </div>
   <div class="col-md-6">
-    <h1><%= @product.title %></h1>
+<h1><%= @product.title %></h1>
     <p class="text-muted">Продавец: <%= @product.seller.store_name %></p>
     
     <p class="lead mt-4"><%= @product.description %></p>
     
+    <div class="mb-3">
+      <% if @product.reviews.any? %>
+        <span class="fs-5 text-warning">★</span> 
+        <span class="fs-5 fw-bold"><%= @product.average_rating %></span>
+        <span class="text-muted ms-2">Based on <%= @product.reviews.count %> reviews</span>
+      <% else %>
+        <span class="text-muted">Нет отзывов</span>
+      <% end %>
+    </div>
+
     <div class="my-4">
       <span class="fs-2 fw-bold"><%= number_to_currency(@product.price) %></span>
     </div>
 
     <div class="d-grid gap-2">
       <%= button_to "Добавить в корзину", cart_items_path(product_id: @product), method: :post, class: "btn btn-primary btn-lg" %>
-      <a href="#" class="btn btn-outline-secondary">Добавить в избранное</a>
+      <% if current_user && current_user.favorite_products.include?(@product) %>
+        <%= button_to "В избранном", favorite_path(@product), method: :delete, class: "btn btn-outline-success btn-lg" %>
+      <% else %>
+        <%= button_to "Добавить в избранное", favorites_path(product_id: @product), method: :post, class: "btn btn-outline-secondary btn-lg" %>
+      <% end %>
     </div>
 
     <div class="mt-4">
       <h5>Категории:</h5>
       <p>
-        <% @product.categories.each do |category| %>
+  <% @product.categories.each do |category| %>
           <%= link_to category.name, category_path(category), class: "badge text-bg-light text-decoration-none" %>
         <% end %>
       </p>
@@ -70,6 +84,6 @@
       <% end %>
     <% else %>
       <p>На этот товар еще нет отзывов. Будьте первым!</p>
-    <% end %>
+  <% end %>
   </div>
 </div>

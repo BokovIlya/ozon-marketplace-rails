@@ -6,4 +6,11 @@ class Product < ApplicationRecord
   has_many :cart_items
   has_many :order_items
   has_many :images, as: :imageable
+  has_many :favorites
+  has_many :favorited_by_users, through: :favorites, source: :user
+
+  def average_rating
+    return 0 if reviews.empty?
+    reviews.average(:rating).round(1)
+  end
 end
