@@ -6,7 +6,7 @@ gem "rails", "~> 8.1.1"
 gem "propshaft"
 
 # Use pg as the database for Active Record
-gem "pg", "~> 1.1"
+gem "pg", "~> 1.6"
 
 gem 'bcrypt'
 gem 'sassc-rails'
